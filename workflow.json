@@ -1,0 +1,1138 @@
+{
+  "name": "Email Sending Automation",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "your-webhook-path",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2.1,
+      "position": [
+        -256,
+        -16
+      ],
+      "id": "9958dc6b-2fa6-4c1c-89ab-74e83b45b612",
+      "name": "Webhook"
+    },
+    {
+      "parameters": {
+        "resource": "databasePage",
+        "operation": "getAll",
+        "databaseId": {
+          "__rl": true,
+          "value": "YOUR_NOTION_ID",
+          "mode": "list",
+          "cachedResultName": "NASCC Email Automation"
+        },
+        "returnAll": true,
+        "options": {}
+      },
+      "type": "n8n-nodes-base.notion",
+      "typeVersion": 2.2,
+      "position": [
+        624,
+        -16
+      ],
+      "id": "36db2554-d0fe-4de7-9f4e-79dc20b264fd",
+      "name": "Get many database pages",
+      "credentials": {
+        "notionApi": {
+          "id": "",
+          "name": "YOUR_notionApi"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $('Get many database pages').item.json.property_role }}",
+                    "rightValue": "Estimator",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    },
+                    "id": "1853ad59-d563-45e6-94a4-03b8f50d34a6"
+                  }
+                ],
+                "combinator": "and"
+              }
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "id": "5bb1dbf2-fb40-4e6f-971a-9b8ea8ef0c9c",
+                    "leftValue": "={{ $('Get many database pages').item.json.property_role }}",
+                    "rightValue": "Fabricator & Erector",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              }
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.4,
+      "position": [
+        1296,
+        -304
+      ],
+      "id": "a3e8c3b7-909e-4917-8e39-017a503b8ceb",
+      "name": "Switch"
+    },
+    {
+      "parameters": {
+        "html": "<!DOCTYPE html>\n<html>\n<head>\n<meta charset=\"UTF-8\">\n</head>\n<body style=\"font-family: Calibri, 'Segoe UI', sans-serif; font-size: 15px; line-height: 1.4; color: #000000; max-width: 750px;\">\n\n<p>{{ $('Get many database pages').item.json.name }},</p>\n\n<p>It was great connecting with you at NASCC 2026 in Atlanta. I hope the conference was as productive for you as it was for us, and that the conversations it sparked continue to open doors.</p>\n\n<p>Pick one of your current or recent projects and we will run it through our full intelligence system at no cost.</p>\n\n<p>The platform is built on two years of structured research, every claim below is sourced and linked on our site under <a href=\"https://www.xpmsolution.com/insights/steel-industry/research-transparency\"><span style=\"color: #2a6f8f; text-decoration: underline;\">[Research Transparency]</span></a>.</p>\n\n<p>You will receive four reports:</p>\n\n<ul style=\"margin-top: 0; padding-left: 40px;\">\n  <li><a href=\"https://www.xpmsolution.com/insights/steel-industry/pain-points\"><span style=\"color: #2a6f8f; text-decoration: underline;\"><strong>268 documented pain points</strong></span></a> across 5 dimensions (frequency, severity, cost consequence, strategic importance, stakeholder breadth).</li>\n  <li><a href=\"https://www.xpmsolution.com/insights/steel-industry/risk-analysis\"><span style=\"color: #2a6f8f; text-decoration: underline;\"><strong>1,266 risks</strong></span></a> mapped across 5 project stages. Shop drawing cycle risk scores <strong>72/100</strong>, the #1 risk in the registry, and drives <strong>35 to 45% of all field changes</strong>.</li>\n  <li><a href=\"https://www.xpmsolution.com/insights/steel-industry/case-studies\"><span style=\"color: #2a6f8f; text-decoration: underline;\"><strong>99 verified case studies</strong></span></a> with measured outcomes, matched to your specific pain profile.</li>\n  <li><a href=\"https://www.xpmsolution.com/insights/steel-industry/steel-agents\"><span style=\"color: #2a6f8f; text-decoration: underline;\"><strong>332 operational templates, 64% AI-automatable</strong></span></a> (214 agents). We tell you exactly which ones works for you.</li>\n</ul>\n\n<p>For <strong>structural engineers specifically</strong>, we cross-check the three documents where the design intent either holds up under fabrication and field reality or gets quietly rewritten by everyone downstream:</p>\n\n<p style=\"margin: 8px 0 8px 40px;\"><strong>Design Drawings &amp; Specifications</strong> line-by-line, for completeness, AISC code reference clarity, BIM LOD compliance, and scope-of-work allocation between the EOR and the detailing chain. Contract documents are <strong>50 to 70% complete on average</strong> when they go out to bid (R-1.2-002, scored 56/100 in the risk registry); BIM models delivered at <strong>LOD 300</strong> routinely get pushed back because fabrication needs <strong>LOD 400 to 500</strong> (R-1.4-015). We flag exactly where your drawings are leaving the next reviewer, fabricator, detailer, or contractor to guess.</p>\n\n<p style=\"margin: 8px 0 8px 40px;\"><strong>Connection Design &amp; Delegated Design Package</strong> connection design responsibility is the <strong>single most disputed scope item in steel projects</strong>, scored <strong>64/100</strong> in the risk registry (R-1.2-005), with EOR and fabricator each assuming the other owns it. We map exactly which connections are EOR-designed, which are delegated under <strong>AISC CoSP §4</strong>, which calculations belong to whom, and where the delegated-design submittal is most likely to bounce on first approval.</p>\n\n<p style=\"margin: 8px 0 8px 40px;\"><strong>Shop Drawing Review Cycle</strong> your review burden, benchmarked against <strong>99 documented projects</strong>, predicted RFI density, turnaround time, and the change-order exposure that flows from review delays. Shop drawing cycle risk is the <strong>#1 risk in the registry at 72/100</strong>, and <strong>35 to 45% of all field changes</strong> originate in this cycle. The industry captures <strong>96% of its project data and analyzes almost none of it</strong> (FMI Corp, PP-TH-002) we wire historical feedback into one cycle, free, so you can see the delta.</p>\n\n<p><strong>What a structural engineer walks away with:</strong></p>\n\n<ul style=\"margin-top: 0; padding-left: 40px;\">\n  <li>A documented <strong>design package readiness audit</strong> LOD gaps, missing dimensions, ambiguous notes, AISC code reference inconsistencies, and scope-allocation conflicts flagged before they become RFIs.</li>\n  <li>A <strong>connection design responsibility map</strong> every connection tagged as EOR-designed, delegated, or undefined, with the calculation-package gaps that will hold up approval and the AISC CoSP §4 compliance checklist applied.</li>\n  <li>A <strong>shop drawing review workload forecast</strong> your predicted RFI volume, review cycle time, and reviewer-hour exposure benchmarked against 99 real projects of similar scope and complexity.</li>\n  <li>A <strong>BIM LOD handoff readiness report</strong> where your model is sitting at LOD 300 vs. the LOD 400 to 500 fabrication needs, and which specific elements are likely to drive coordination RFIs.</li>\n  <li>A <strong>delegated-design specification template</strong> you can reuse on the next ten projects.</li>\n</ul>\n\n<p>The diagnosis surfaces exactly where the design-to-construction exposure sits on your current project, against two years of research, at no cost to you.<br>\nIf it earns a conversation, we'll talk. If not, you keep the report.</p>\n\n<p>I'll personally make sure your four reports are back in your inbox shortly.</p>\n\n</body>\n</html>"
+      },
+      "type": "n8n-nodes-base.html",
+      "typeVersion": 1.2,
+      "position": [
+        1776,
+        352
+      ],
+      "id": "88fc8fe6-6976-4c8e-80f1-f5332b753ce8",
+      "name": "Structural Engineer"
+    },
+    {
+      "parameters": {
+        "html": "<!DOCTYPE html>\n<html>\n<head>\n<meta charset=\"UTF-8\">\n</head>\n<body style=\"font-family: Calibri, 'Segoe UI', sans-serif; font-size: 15px; line-height: 1.4; color: #000000; max-width: 750px;\">\n\n<p>{{ $('Get many database pages').item.json.name }},</p>\n\n<p>It was great connecting with you at NASCC 2026 in Atlanta. I hope the conference was as productive for you as it was for us, and that the conversations it sparked continue to open doors.</p>\n\n<p>Pick one of your current or recent projects and we will run it through our full intelligence system at no cost.<br>\nThe platform is built on two years of structured research, every claim below is sourced and linked on our site under <a href=\"https://www.xpmsolution.com/insights/steel-industry/research-transparency\"><span style=\"color: #2a6f8f; text-decoration: underline;\">[Research Transparency]</span></a>.</p>\n\n<p>You will receive four reports:</p>\n\n<ul style=\"margin-top: 0; padding-left: 40px;\">\n  <li><a href=\"https://www.xpmsolution.com/insights/steel-industry/pain-points\"><span style=\"color: #2a6f8f; text-decoration: underline;\"><strong>268 documented pain points</strong></span></a> across 5 dimensions (frequency, severity, cost consequence, strategic importance, stakeholder breadth).</li>\n  <li><a href=\"https://www.xpmsolution.com/insights/steel-industry/risk-analysis\"><span style=\"color: #2a6f8f; text-decoration: underline;\"><strong>1,266 risks</strong></span></a> mapped across 5 project stages. Shop drawing cycle risk scores <strong>72/100</strong>, the #1 risk in the registry, and drives <strong>35 to 45% of all field changes</strong>.</li>\n  <li><a href=\"https://www.xpmsolution.com/insights/steel-industry/case-studies\"><span style=\"color: #2a6f8f; text-decoration: underline;\"><strong>99 verified case studies</strong></span></a> with measured outcomes, matched to your specific pain profile.</li>\n  <li><a href=\"https://www.xpmsolution.com/insights/steel-industry/steel-agents\"><span style=\"color: #2a6f8f; text-decoration: underline;\"><strong>332 operational templates, 64% AI-automatable</strong></span></a> (214 agents). We tell you exactly which ones works for you.</li>\n</ul>\n\n<p><strong>The part most researchers ask about first: the methodology.</strong><br>\nThe <strong>five-step research protocol</strong> is published, you can read it, critique it, or use it as the basis for a methodology paper of your own.<br>\nIf you find a flaw, we want to hear about it. That is the contract of open research.</p>\n\n<p><strong>Three concrete ways the dataset can support your work:</strong></p>\n\n<p style=\"margin: 8px 0 8px 40px;\"><strong>1. Validation</strong> query a slice of the corpus filtered to your research area and stress-test our scoring against your own analysis. We will send the slice in machine-readable format (CSV / JSON) with full citations attached.</p>\n\n<p style=\"margin: 8px 0 8px 40px;\"><strong>2. Expansion</strong> if your dissertation or paper is filling a gap we have already identified (and there are many), we can co-validate findings, share data lineage, and discuss formal acknowledgment or co-authorship.</p>\n\n<p style=\"margin: 8px 0 8px 40px;\"><strong>3. Citation</strong> the corpus has a stable reference. If you cite it in a publication, conference paper, or thesis, the reference format is on page.</p>\n\n<p><strong>What a researcher walks away with:</strong></p>\n\n<ul style=\"margin-top: 0; padding-left: 40px;\">\n  <li>A <strong>filtered corpus slice</strong> built around your topic, pain points, risks, and case studies tagged to your research domain.</li>\n  <li>A <strong>methodology brief</strong>, the five-step protocol, the source taxonomy, the scoring rubric, the normalization rules, open for review and critique.</li>\n  <li>A <strong>citation reference</strong> ready to drop into your bibliography.</li>\n  <li>A <strong>short call with Prof. Dr. Neo Ekici</strong> to discuss research fit, validation pathways, and potential publication routes.<br>\n  <span style=\"color: #767171; font-size: 13px;\">(Research Director, xPM Solutions)</span></li>\n</ul>\n\n<p>We do not believe industry data should be locked behind sales gates from the researchers building the next decade of this field.<br>\nIf your research touches structural steel, project delivery, <strong>AI in construction, risk analysis, BIM, or workforce,</strong> this dataset supports your research.</p>\n\n<p>Reply with one line, your research topic, or the slice you want, and we will route it to you shortly.</p>\n\n</body>\n</html>"
+      },
+      "type": "n8n-nodes-base.html",
+      "typeVersion": 1.2,
+      "position": [
+        1568,
+        -64
+      ],
+      "id": "834f5367-c046-427e-a22d-b0b5e18fda46",
+      "name": "Researcher"
+    },
+    {
+      "parameters": {
+        "html": "<!DOCTYPE html>\n<html>\n<head>\n<meta charset=\"UTF-8\">\n</head>\n<body style=\"font-family: Calibri, 'Segoe UI', sans-serif; font-size: 15px; line-height: 1.4; color: #000000; max-width: 750px;\">\n\n<p>{{ $('Get many database pages').item.json.name }},</p>\n\n<p>It was a pleasure meeting you at <strong>Booth #500</strong> in Atlanta. I hope the rest of NASCC was worthwhile, and the conversations afterwards even more so.</p>\n\n<p>The platform is built on two years of structured research, every claim below is sourced and linked on our site under <a href=\"https://www.xpmsolution.com/insights/steel-industry/research-transparency\"><span style=\"color: #2a6f8f; text-decoration: underline;\">[Research Transparency]</span></a>.</p>\n\n<p>You will receive four reports:</p>\n\n<ul style=\"margin-top: 0; padding-left: 40px;\">\n  <li><a href=\"https://www.xpmsolution.com/insights/steel-industry/pain-points\"><span style=\"color: #2a6f8f; text-decoration: underline;\"><strong>268 documented pain points</strong></span></a></li>\n  <li><a href=\"https://www.xpmsolution.com/insights/steel-industry/risk-analysis\"><span style=\"color: #2a6f8f; text-decoration: underline;\"><strong>1,266 risks</strong></span></a></li>\n  <li><a href=\"https://www.xpmsolution.com/insights/steel-industry/case-studies\"><span style=\"color: #2a6f8f; text-decoration: underline;\"><strong>99 verified case studies</strong></span></a></li>\n  <li><a href=\"https://www.xpmsolution.com/insights/steel-industry/steel-agents\"><span style=\"color: #2a6f8f; text-decoration: underline;\"><strong>332 operational templates, 64% AI-automatable</strong></span></a></li>\n</ul>\n\n<p>The diagnosis surfaces exactly where that exposure sits on your current project, against two years of research, at no cost to you.<br>\nIf it earns a conversation, we'll talk. If not, you keep the report.</p>\n\n<p>I'll personally make sure your four reports are back in your inbox.</p>\n\n</body>\n</html>"
+      },
+      "type": "n8n-nodes-base.html",
+      "typeVersion": 1.2,
+      "position": [
+        1776,
+        512
+      ],
+      "id": "ca91c89f-a89c-4d5a-a231-52d5a557a6d2",
+      "name": "GC"
+    },
+    {
+      "parameters": {
+        "resource": "draft",
+        "subject": "NASCC 2026 | xPM Construction Project Management",
+        "bodyContent": "={{ $json.html }}\n\n{{ $('Sender Signature').item.json.html }}",
+        "additionalFields": {
+          "categories": [
+            "Initial"
+          ],
+          "bodyContentType": "html",
+          "toRecipients": "={{ $('Get many database pages').item.json.property_email }}"
+        }
+      },
+      "type": "n8n-nodes-base.microsoftOutlook",
+      "typeVersion": 2,
+      "position": [
+        1760,
+        -688
+      ],
+      "id": "24e03a51-8c77-4b6c-af20-41fa28b1ea06",
+      "name": "estimator draft",
+      "credentials": {
+        "microsoftOutlookOAuth2Api": {
+          "id": "",
+          "name": "YOUR_microsoftOutlookOAuth2Api"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "draft",
+        "subject": "NASCC 2026 | xPM Construction Project Management",
+        "bodyContent": "={{ $json.html }}\n\n{{ $('Sender Signature').item.json.html }}",
+        "additionalFields": {
+          "categories": [
+            "Initial"
+          ],
+          "bodyContentType": "html",
+          "toRecipients": "={{ $('Get many database pages').item.json.property_email }}"
+        }
+      },
+      "type": "n8n-nodes-base.microsoftOutlook",
+      "typeVersion": 2,
+      "position": [
+        1968,
+        352
+      ],
+      "id": "d08ea692-ac81-4314-b308-663b88dcc91d",
+      "name": "struct eng draft",
+      "credentials": {
+        "microsoftOutlookOAuth2Api": {
+          "id": "",
+          "name": "YOUR_microsoftOutlookOAuth2Api"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "draft",
+        "subject": "NASCC 2026 | xPM Construction Project Management",
+        "bodyContent": "={{ $json.html }}\n\n{{ $('Mehmet Signature').item.json.html }}",
+        "additionalFields": {
+          "categories": [
+            "Initial"
+          ],
+          "bodyContentType": "html",
+          "toRecipients": "={{ $('Get many database pages').item.json.property_email }}"
+        }
+      },
+      "type": "n8n-nodes-base.microsoftOutlook",
+      "typeVersion": 2,
+      "position": [
+        1760,
+        -64
+      ],
+      "id": "88010053-1ecb-4d07-8269-45bacadc064d",
+      "name": "research draft",
+      "credentials": {
+        "microsoftOutlookOAuth2Api": {
+          "id": "",
+          "name": "YOUR_microsoftOutlookOAuth2Api"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "draft",
+        "subject": "NASCC 2026 | xPM Construction Project Management",
+        "bodyContent": "={{ $json.html }}\n\n{{ $('Sender Signature').item.json.html }}",
+        "additionalFields": {
+          "categories": [
+            "Initial"
+          ],
+          "bodyContentType": "html",
+          "toRecipients": "={{ $('Get many database pages').item.json.property_email }}"
+        }
+      },
+      "type": "n8n-nodes-base.microsoftOutlook",
+      "typeVersion": 2,
+      "position": [
+        1968,
+        512
+      ],
+      "id": "ba016e65-a7c3-4f4e-9d64-c49406637ffc",
+      "name": "GC Draft",
+      "credentials": {
+        "microsoftOutlookOAuth2Api": {
+          "id": "",
+          "name": "YOUR_microsoftOutlookOAuth2Api"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "databasePage",
+        "operation": "update",
+        "pageId": {
+          "__rl": true,
+          "value": "YOUR_NOTION_ID",
+          "mode": "id"
+        },
+        "propertiesUi": {
+          "propertyValues": [
+            {
+              "key": "Drafted?|checkbox",
+              "checkboxValue": true
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.notion",
+      "typeVersion": 2.2,
+      "position": [
+        1984,
+        -688
+      ],
+      "id": "32b2891f-2612-4c17-bf0e-5f1e7e848730",
+      "name": "Update a database page",
+      "credentials": {
+        "notionApi": {
+          "id": "",
+          "name": "YOUR_notionApi"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "databasePage",
+        "operation": "update",
+        "pageId": {
+          "__rl": true,
+          "value": "YOUR_NOTION_ID",
+          "mode": "id"
+        },
+        "propertiesUi": {
+          "propertyValues": [
+            {
+              "key": "Drafted?|checkbox",
+              "checkboxValue": true
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.notion",
+      "typeVersion": 2.2,
+      "position": [
+        2192,
+        352
+      ],
+      "id": "d43bfde8-d3d6-4013-838f-54ebc2127841",
+      "name": "Update a database page1",
+      "credentials": {
+        "notionApi": {
+          "id": "",
+          "name": "YOUR_notionApi"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "databasePage",
+        "operation": "update",
+        "pageId": {
+          "__rl": true,
+          "value": "YOUR_NOTION_ID",
+          "mode": "id"
+        },
+        "propertiesUi": {
+          "propertyValues": [
+            {
+              "key": "Drafted?|checkbox",
+              "checkboxValue": true
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.notion",
+      "typeVersion": 2.2,
+      "position": [
+        1984,
+        -64
+      ],
+      "id": "9692f44b-cf72-4faa-ad5a-43bc11752d6b",
+      "name": "Update a database page2",
+      "credentials": {
+        "notionApi": {
+          "id": "",
+          "name": "YOUR_notionApi"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "databasePage",
+        "operation": "update",
+        "pageId": {
+          "__rl": true,
+          "value": "YOUR_NOTION_ID",
+          "mode": "id"
+        },
+        "propertiesUi": {
+          "propertyValues": [
+            {
+              "key": "Drafted?|checkbox",
+              "checkboxValue": true
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.notion",
+      "typeVersion": 2.2,
+      "position": [
+        2192,
+        512
+      ],
+      "id": "4a769360-cee7-405c-9526-cbfc0d12c33c",
+      "name": "Update a database page3",
+      "credentials": {
+        "notionApi": {
+          "id": "",
+          "name": "YOUR_notionApi"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "databasePage",
+        "operation": "update",
+        "pageId": {
+          "__rl": true,
+          "value": "YOUR_NOTION_ID",
+          "mode": "id"
+        },
+        "propertiesUi": {
+          "propertyValues": [
+            {
+              "key": "Drafted?|checkbox",
+              "checkboxValue": true
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.notion",
+      "typeVersion": 2.2,
+      "position": [
+        1984,
+        -528
+      ],
+      "id": "31a4fad0-9f23-4db2-8bcc-40e41701b365",
+      "name": "Update a database page4",
+      "credentials": {
+        "notionApi": {
+          "id": "",
+          "name": "YOUR_notionApi"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "databasePage",
+        "operation": "update",
+        "pageId": {
+          "__rl": true,
+          "value": "YOUR_NOTION_ID",
+          "mode": "id"
+        },
+        "propertiesUi": {
+          "propertyValues": [
+            {
+              "key": "Drafted?|checkbox",
+              "checkboxValue": true
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.notion",
+      "typeVersion": 2.2,
+      "position": [
+        2192,
+        192
+      ],
+      "id": "eda894a8-ac19-4595-878a-c42e4dd86b6c",
+      "name": "Update a database page5",
+      "credentials": {
+        "notionApi": {
+          "id": "",
+          "name": "YOUR_notionApi"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "0a017cec-8678-4296-8cd6-9ef2fd13e098",
+              "leftValue": "={{ $json.property_draft_it }}",
+              "rightValue": false,
+              "operator": {
+                "type": "boolean",
+                "operation": "true",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        832,
+        -16
+      ],
+      "id": "671576dc-29d2-4c01-92ee-c130b96f59df",
+      "name": "If"
+    },
+    {
+      "parameters": {
+        "html": "<!DOCTYPE html>\n<html>\n<head>\n<meta charset=\"UTF-8\">\n</head>\n<body style=\"font-family: Calibri, 'Segoe UI', sans-serif; font-size: 15px; line-height: 1.4; color: #000000; max-width: 750px;\">\n\n<p>{{ $('Get many database pages').item.json.name }},</p>\n\n<p>It was great connecting with you at NASCC 2026 in Atlanta. I hope the conference was as productive for you as it was for us, and that the conversations it sparked continue to open doors.</p>\n\n<p>The platform is built on two years of structured research, every claim below is sourced and linked on our site under <a href=\"https://www.xpmsolution.com/insights/steel-industry/research-transparency\"><span style=\"color: #2a6f8f; text-decoration: underline;\">[Research Transparency]</span></a>.</p>\n\n<p>Pick one of your current or recent projects and we will run it through our full intelligence system at no cost.</p>\n\n<ul style=\"margin-top: 0; padding-left: 40px;\">\n  <li><a href=\"https://www.xpmsolution.com/insights/steel-industry/pain-points\"><span style=\"color: #2a6f8f; text-decoration: underline;\"><strong>268 documented pain points</strong></span></a> across 5 dimensions (frequency, severity, cost consequence, strategic importance, stakeholder breadth).</li>\n  <li><a href=\"https://www.xpmsolution.com/insights/steel-industry/risk-analysis\"><span style=\"color: #2a6f8f; text-decoration: underline;\"><strong>1,266 risks</strong></span></a> mapped across 5 project stages. Shop drawing cycle risk scores <strong>72/100</strong>, the #1 risk in the registry, and drives <strong>35 to 45% of all field changes</strong>.</li>\n  <li><a href=\"https://www.xpmsolution.com/insights/steel-industry/case-studies\"><span style=\"color: #2a6f8f; text-decoration: underline;\"><strong>99 verified case studies</strong></span></a> with measured outcomes, matched to your specific pain profile.</li>\n  <li><a href=\"https://www.xpmsolution.com/insights/steel-industry/steel-agents\"><span style=\"color: #2a6f8f; text-decoration: underline;\"><strong>332 operational templates, 64% AI-automatable</strong></span></a> (214 agents). We tell you exactly which ones works for you.</li>\n</ul>\n\n<p><strong>For estimators specifically, we cross-check the documents that decide whether a bid earns its margin or loses it:</strong></p>\n\n<p style=\"margin: 8px 0 8px 40px;\"><strong>Scope of Work / Estimate</strong> line-by-line, against the <strong>268 pain-point library</strong> and the scope inclusion/exclusion matrix that <strong>8 out of 10 contracts are missing</strong> (R-1.2-001). We flag the silent gaps before they become disputed change orders.</p>\n\n<p style=\"margin: 8px 0 8px 40px;\"><strong>Historical Data Comparison</strong> your numbers against <strong>99 documented cases</strong> in the same scope band. The industry captures <strong>96% of its project data and analyzes almost none of it</strong> (FMI Corp). Estimating accuracy improves <strong>15 to 25%</strong> when historical feedback is wired in.</p>\n\n<p>We wire it in for one project, for free, so you can see the delta.</p>\n\n<p><strong>What an estimator walks away with:</strong></p>\n\n<ul style=\"margin-top: 0; padding-left: 40px;\">\n  <li>A documented <strong>scope-gap map</strong> showing every clause, inclusion, and exclusion that is <em>missing</em> from the bid package, before the GC finds it for you.</li>\n  <li>A <strong>historical comparable</strong> your $/ton, labor hours, connection counts, and shop drawing cycle benchmarked against 99 real projects of similar scope.</li>\n  <li>A <strong>change-order capture forecast</strong> based on the <strong>35 to 45%</strong> of field changes that originate in shop drawings and the <strong>15 to 20% of project cost</strong> that is absorbed industry-wide because the documentation wasn't there when it mattered.</li>\n  <li>A <strong>risk-priced bid letter template</strong> you can reuse on the next ten projects.</li>\n</ul>\n\n<p>The diagnosis surfaces exactly where that exposure sits on your current project of review, against two years of research, at no cost to you.<br>\nIf it earns a conversation, we'll talk. If not, you keep the report.</p>\n\n<p>Send one project. I'll personally make sure your four reports are back in your inbox shortly.</p>\n\n</body>\n</html>"
+      },
+      "type": "n8n-nodes-base.html",
+      "typeVersion": 1.2,
+      "position": [
+        1568,
+        -688
+      ],
+      "id": "a8e4c95f-0564-4efc-b5ff-e87d73f5471e",
+      "name": "Estimator1"
+    },
+    {
+      "parameters": {
+        "html": "<!DOCTYPE html>\n<html>\n<head>\n<meta charset=\"UTF-8\">\n</head>\n<body style=\"font-family: Calibri, 'Segoe UI', sans-serif; font-size: 15px; line-height: 1.4; color: #000000; max-width: 750px;\">\n\n<p>{{ $('Get many database pages').item.json.name }},</p>\n\n<p>It was great connecting with you at NASCC 2026 in Atlanta. I hope the rest of NASCC was worthwhile, and the conversations afterwards even more so.</p>\n\n<p>The platform is built on two years of structured research, every claim below is sourced and linked on our site under <a href=\"https://www.xpmsolution.com/insights/steel-industry/research-transparency\"><span style=\"color: #2a6f8f; text-decoration: underline;\">[Research Transparency]</span></a>.</p>\n\n<p>You will receive four reports:</p>\n\n<ul style=\"margin-top: 0; padding-left: 40px;\">\n  <li><a href=\"https://www.xpmsolution.com/insights/steel-industry/pain-points\"><span style=\"color: #2a6f8f; text-decoration: underline;\"><strong>268 documented pain points</strong></span></a></li>\n  <li><a href=\"https://www.xpmsolution.com/insights/steel-industry/risk-analysis\"><span style=\"color: #2a6f8f; text-decoration: underline;\"><strong>1,266 risks</strong></span></a></li>\n  <li><a href=\"https://www.xpmsolution.com/insights/steel-industry/case-studies\"><span style=\"color: #2a6f8f; text-decoration: underline;\"><strong>99 verified case studies</strong></span></a></li>\n  <li><a href=\"https://www.xpmsolution.com/insights/steel-industry/steel-agents\"><span style=\"color: #2a6f8f; text-decoration: underline;\"><strong>332 operational templates, 64% AI-automatable</strong></span></a></li>\n</ul>\n\n<p><strong>What a fabricator walks away with:</strong></p>\n\n<ul style=\"margin-top: 0; padding-left: 40px;\">\n  <li>A <strong>contract-clarity audit</strong> Every escalation, retention, and change-order clause scored against peer-benchmark fabrication contracts, with the silent gaps named.</li>\n  <li>A <strong>shop drawing cycle benchmark</strong> Your review cycle, RFI density, and resubmission count against 99 documented projects.</li>\n  <li>A <strong>production-schedule risk map</strong> Mill lead-time exposure, idle-time forecast, and post-fab change probability quantified.</li>\n</ul>\n\n<p>The diagnosis surfaces exactly where that exposure sits on your current project, against two years of research, at no cost to you.<br>\nIf it earns a conversation, we'll talk. If not, you keep the report.</p>\n\n<p>I'll personally make sure your four reports are back in your inbox.</p>\n\n</body>\n</html>"
+      },
+      "type": "n8n-nodes-base.html",
+      "typeVersion": 1.2,
+      "position": [
+        1568,
+        -528
+      ],
+      "id": "eded0fdc-5901-46db-8261-622a199137c8",
+      "name": "Fabrictor & Erector"
+    },
+    {
+      "parameters": {
+        "resource": "draft",
+        "subject": "NASCC 2026 | xPM Construction Project Management",
+        "bodyContent": "={{ $json.html }}\n\n{{ $('Sender Signature').item.json.html }}",
+        "additionalFields": {
+          "categories": [
+            "Initial"
+          ],
+          "bodyContentType": "html",
+          "toRecipients": "={{ $('Get many database pages').item.json.property_email }}"
+        }
+      },
+      "type": "n8n-nodes-base.microsoftOutlook",
+      "typeVersion": 2,
+      "position": [
+        1760,
+        -528
+      ],
+      "id": "6b16aee7-70c5-423d-9e0d-605acf002b1e",
+      "name": "Fabrictor & Erector1",
+      "credentials": {
+        "microsoftOutlookOAuth2Api": {
+          "id": "",
+          "name": "YOUR_microsoftOutlookOAuth2Api"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "html": "<!DOCTYPE html>\n<html>\n<head>\n<meta charset=\"UTF-8\">\n</head>\n<body style=\"font-family: Calibri, 'Segoe UI', sans-serif; font-size: 15px; line-height: 1.4; color: #000000; max-width: 750px;\">\n\n<p>{{ $('Get many database pages').item.json.name }},</p>\n\n<p>It was great connecting with you at NASCC 2026 in Atlanta. I hope the conference was as productive for you as it was for us, and that the conversations it sparked continue to open doors.</p>\n\n<p>The platform is built on two years of structured research, every claim below is sourced and linked on our site under <a href=\"https://www.xpmsolution.com/insights/steel-industry/research-transparency\"><span style=\"color: #2a6f8f; text-decoration: underline;\">[Research Transparency]</span></a>.<br>\nPick one of your current or recent projects and we will run it through our full intelligence system at no cost.</p>\n\n<ul style=\"margin-top: 0; padding-left: 40px;\">\n  <li><a href=\"https://www.xpmsolution.com/insights/steel-industry/pain-points\"><span style=\"color: #2a6f8f; text-decoration: underline;\"><strong>268 documented pain points</strong></span></a></li>\n  <li><a href=\"https://www.xpmsolution.com/insights/steel-industry/risk-analysis\"><span style=\"color: #2a6f8f; text-decoration: underline;\"><strong>1,266 risks</strong></span></a></li>\n  <li><a href=\"https://www.xpmsolution.com/insights/steel-industry/case-studies\"><span style=\"color: #2a6f8f; text-decoration: underline;\"><strong>99 verified case studies</strong></span></a></li>\n  <li><a href=\"https://www.xpmsolution.com/insights/steel-industry/steel-agents\"><span style=\"color: #2a6f8f; text-decoration: underline;\"><strong>332 operational templates</strong></span></a></li>\n</ul>\n\n<p style=\"margin: 8px 0 8px 40px;\"><strong>Steel Trade Subcontract</strong> risk allocation, indemnity, schedule-of-values cadence, change-order mechanism, pass-through to owner, escalation clauses, lien waiver protocol. We map every clause against the <strong>268 pain-point library</strong> and against the contract structures used by peer ENR Top 100 firms on comparable work. The contract is where margin is either protected or surrendered before the first piece of steel arrives.</p>\n\n<p style=\"margin: 8px 0 8px 40px;\"><strong>Schedule Integration &amp; Steel Critical Path</strong> mill lead time, shop drawing cycle, erection sequence, and weather/inspection float. <strong>17 of the top 25 risks in steel construction originate in pre-construction</strong>, and the shop drawing bottleneck alone (R-1.4-009, scored 72/100) runs 4 to 12 weeks. We model your steel critical path against 99 documented projects and flag every node where schedule certainty is sitting on a contingency rather than a control.</p>\n\n<p style=\"margin: 8px 0 8px 40px;\"><strong>Design Coordination &amp; RFI Exposure</strong> design completeness, connection design responsibility allocation (R-1.2-005, scored <strong>64/100</strong>, the most disputed scope item in steel construction), and BIM LOD handoff readiness (LOD 300 vs. fabrication-needed LOD 400 to 500). Contract documents are <strong>50 to 70% complete on average</strong> at bid (R-1.2-002). We tell you where the design package is leaving your team to absorb the RFI volume that flows back from the fabricator and erector.</p>\n\n<p><strong>What an ENR-level GC walks away with:</strong></p>\n\n<ul style=\"margin-top: 0; padding-left: 40px;\">\n  <li>A <strong>steel-package risk-allocation map</strong> for the mega-project you submit, every clause, indemnity, and pass-through tagged with peer-benchmark commentary.</li>\n  <li>A <strong>schedule critical-path forecast</strong> mill, shop, erection, with the float points and mitigation options other ENR firms have used on comparable projects.</li>\n  <li>An <strong>RFI volume forecast</strong> predicted RFI density and reviewer-hour exposure based on the design package completeness and 99 historical projects.</li>\n  <li>A <strong>change-order pass-through map</strong> owner-directed vs. design-driven vs. field-condition changes, with the <strong>15 to 20% of project cost</strong> that is absorbed industry-wide where documentation fails (the part owners are paying for whether you bill it or not).</li>\n</ul>\n\n<p>The diagnosis surfaces exactly where the steel package is carrying schedule and cost risk on the project you submit, measured against the same research corpus your peers' procurement teams are starting to ask about.<br>\nIf it earns a conversation, we'll talk. If not, you keep the report.</p>\n\n<p>I'll personally make sure your four reports are back in your inbox shortly.</p>\n\n</body>\n</html>"
+      },
+      "type": "n8n-nodes-base.html",
+      "typeVersion": 1.2,
+      "position": [
+        1776,
+        192
+      ],
+      "id": "52f0ae1d-b71a-4215-9925-cceb6f65e169",
+      "name": "GC [ENR]"
+    },
+    {
+      "parameters": {
+        "resource": "draft",
+        "subject": "NASCC 2026 | xPM Construction Project Management",
+        "bodyContent": "={{ $json.html }}\n\n{{ $('Sender Signature').item.json.html }}",
+        "additionalFields": {
+          "categories": [
+            "Initial"
+          ],
+          "bodyContentType": "html",
+          "toRecipients": "={{ $('Get many database pages').item.json.property_email }}"
+        }
+      },
+      "type": "n8n-nodes-base.microsoftOutlook",
+      "typeVersion": 2,
+      "position": [
+        1968,
+        192
+      ],
+      "id": "82fa8ff7-b7f9-4d2a-8b59-59e746b446f5",
+      "name": "GC [ENR]1",
+      "credentials": {
+        "microsoftOutlookOAuth2Api": {
+          "id": "",
+          "name": "YOUR_microsoftOutlookOAuth2Api"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "7d968b94-5834-44fc-a8c5-92d5bbfa61b8",
+              "leftValue": "={{ $json.property_role }}",
+              "rightValue": "Researcher",
+              "operator": {
+                "type": "string",
+                "operation": "equals",
+                "name": "filter.operator.equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        1216,
+        64
+      ],
+      "id": "7d2dd4c2-99f8-482f-bc11-c4d6c41a05cc",
+      "name": "If2"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "31a23294-2d88-43c5-b590-bb1571546ba8",
+              "leftValue": "={{ $('xPM').item.json.property_role }}",
+              "rightValue": "GC [ENR]",
+              "operator": {
+                "type": "string",
+                "operation": "equals",
+                "name": "filter.operator.equals"
+              }
+            },
+            {
+              "id": "93f0a453-8192-4d3c-83ea-d0523bc23b2a",
+              "leftValue": "={{ $('xPM').item.json.property_role }}",
+              "rightValue": "Structural Engineer",
+              "operator": {
+                "type": "string",
+                "operation": "equals"
+              }
+            },
+            {
+              "id": "cf4b9999-bff5-4fd3-b2ed-01d276a10d09",
+              "leftValue": "={{ $('xPM').item.json.property_role }}",
+              "rightValue": "GC",
+              "operator": {
+                "type": "string",
+                "operation": "equals",
+                "name": "filter.operator.equals"
+              }
+            }
+          ],
+          "combinator": "or"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        1360,
+        208
+      ],
+      "id": "a905fe22-4c79-4227-8156-67f83bdc190d",
+      "name": "If3"
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $('xPM').item.json.property_role }}",
+                    "rightValue": "GC [ENR]",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    },
+                    "id": "ef870577-d347-4ad0-8774-d84bfcdb6806"
+                  }
+                ],
+                "combinator": "and"
+              }
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "id": "39ae17f9-3c7b-4c42-a816-b751ed1501e3",
+                    "leftValue": "={{ $('xPM').item.json.property_role }}",
+                    "rightValue": "Structural Engineer",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals",
+                      "name": "filter.operator.equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              }
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "id": "63fa627d-a5ea-4523-8fc8-fbeafb19e62d",
+                    "leftValue": "={{ $('xPM').item.json.property_role }}",
+                    "rightValue": "GC",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals",
+                      "name": "filter.operator.equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              }
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.4,
+      "position": [
+        1536,
+        176
+      ],
+      "id": "88dac3ae-b15a-4398-b121-8d08a693c447",
+      "name": "Switch1"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "8b7e1e2b-c294-4e72-8271-0a032354a246",
+              "leftValue": "={{ $json.property_role }}",
+              "rightValue": "Estimator",
+              "operator": {
+                "type": "string",
+                "operation": "equals"
+              }
+            },
+            {
+              "id": "40209f3a-53bb-4500-bd44-833126c3cae2",
+              "leftValue": "={{ $json.property_role }}",
+              "rightValue": "Fabricator & Erector",
+              "operator": {
+                "type": "string",
+                "operation": "equals",
+                "name": "filter.operator.equals"
+              }
+            }
+          ],
+          "combinator": "or"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        1072,
+        -32
+      ],
+      "id": "04f8350f-4d1a-4aa9-a898-a95ce8e7e73d",
+      "name": "xPM"
+    },
+    {
+      "parameters": {
+        "html": "<p style=\"font-size: 11pt; color: #7F7F7F; font-family: Calibri, sans-serif; margin: 0;\">Thanks,</p>\n<p style=\"margin: 0; font-family: Calibri, sans-serif;\"><strong><span style=\"color: #365F91;\">Sender Name</span></strong></p>\n<p style=\"margin: 0; font-family: Calibri, sans-serif;\"><strong>Founder, CEO</strong></p>\n<p style=\"margin: 4px 0;\">\n  <img src=\"https://www.xpmsolution.com/images/xpm-logo-full.png\" alt=\"xPM Solution\" width=\"178\" height=\"69\" style=\"width: 178px; height: 69px; display: block;\">\n</p>\n<p style=\"font-size: 10pt; font-family: Calibri, sans-serif; margin: 0;\">\n  <a href=\"mailto:name@example.com\" style=\"color: #0563C1; text-decoration: underline;\">name@example.com</a>\n  <strong><span style=\"color: #002060;\"> | </span></strong>\n  <a href=\"http://www.xpmsolution.com/\" style=\"color: #0563C1; text-decoration: underline;\">www.xpmsolution.com</a>\n</p>\n<p style=\"margin: 12px 0 0 0; font-size: 11pt; font-family: Calibri, sans-serif; color: #767171;\">\n  <strong>CONFIDENTIALITY NOTICE:</strong> The information in this email may be confidential and/or privileged. This email is intended to be reviewed by only the individual or organization named above. If you are not the intended recipient or an authorized representative of the intended recipient, you are hereby notified that any review, dissemination or copying of this email and its attachments, if any, or the information contained herein is prohibited. If you have received this email in error, please immediately notify the sender by return email and delete this email from your system.\n</p>"
+      },
+      "type": "n8n-nodes-base.html",
+      "typeVersion": 1.2,
+      "position": [
+        432,
+        -16
+      ],
+      "id": "160e8ba3-4881-4d27-aa19-50b05db47c61",
+      "name": "Sender Signature"
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.html",
+      "typeVersion": 1.2,
+      "position": [
+        32,
+        -16
+      ],
+      "id": "3eac6b7f-2fed-4319-bca5-d4db83f7227b",
+      "name": "xPM Signature"
+    },
+    {
+      "parameters": {
+        "html": "<p style=\"font-size: 11pt; color: #7F7F7F; font-family: Calibri, sans-serif; margin: 0;\">Best,</p>\n<p style=\"margin: 0; font-family: Calibri, sans-serif;\"><strong><span style=\"color: #1a2332;\">Mehmet Bisen</span></strong></p>\n<p style=\"margin: 0; font-family: Calibri, sans-serif;\"><strong>AI Integration Specialist</strong></p>\n<p style=\"margin: 4px 0;\">\n  <img src=\"https://www.xpmsolution.com/images/xpm-logo-full.png\" alt=\"xPM Solution\" width=\"178\" height=\"69\" style=\"width: 178px; height: 69px; display: block;\">\n</p>\n<p style=\"font-size: 10pt; font-family: Calibri, sans-serif; margin: 0;\">\n  <a href=\"mailto:name@example.com\" style=\"color: #0563C1; text-decoration: underline;\">name@example.com</a>\n  <strong><span style=\"color: #002060;\"> | </span></strong>\n  <a href=\"https://www.xpmsolution.com/\" style=\"color: #0563C1; text-decoration: underline;\">www.xpmsolution.com</a>\n  <strong><span style=\"color: #002060;\"> | </span></strong>\n  <a href=\"https://www.linkedin.com/in/mehmetbisen/\" style=\"color: #0563C1; text-decoration: underline;\"><strong>LinkedIn</strong></a>\n</p>\n<p style=\"margin: 12px 0 0 0; font-size: 11pt; font-family: Calibri, sans-serif; color: #767171;\">\n  <strong>CONFIDENTIALITY NOTICE:</strong> The information in this email may be confidential and/or privileged. This email is intended to be reviewed by only the individual or organization named above. If you are not the intended recipient or an authorized representative of the intended recipient, you are hereby notified that any review, dissemination or copying of this email and its attachments, if any, or the information contained herein is prohibited. If you have received this email in error, please immediately notify the sender by return email and delete this email from your system.\n</p>"
+      },
+      "type": "n8n-nodes-base.html",
+      "typeVersion": 1.2,
+      "position": [
+        240,
+        -16
+      ],
+      "id": "389c0223-3dc9-47e0-b7ad-5944ef47d291",
+      "name": "Mehmet Signature"
+    }
+  ],
+  "connections": {
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "xPM Signature",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get many database pages": {
+      "main": [
+        [
+          {
+            "node": "If",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Switch": {
+      "main": [
+        [
+          {
+            "node": "Estimator1",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Fabrictor & Erector",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Structural Engineer": {
+      "main": [
+        [
+          {
+            "node": "struct eng draft",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Researcher": {
+      "main": [
+        [
+          {
+            "node": "research draft",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "GC": {
+      "main": [
+        [
+          {
+            "node": "GC Draft",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "estimator draft": {
+      "main": [
+        [
+          {
+            "node": "Update a database page",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "struct eng draft": {
+      "main": [
+        [
+          {
+            "node": "Update a database page1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "research draft": {
+      "main": [
+        [
+          {
+            "node": "Update a database page2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "GC Draft": {
+      "main": [
+        [
+          {
+            "node": "Update a database page3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If": {
+      "main": [
+        [
+          {
+            "node": "xPM",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Estimator1": {
+      "main": [
+        [
+          {
+            "node": "estimator draft",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Fabrictor & Erector": {
+      "main": [
+        [
+          {
+            "node": "Fabrictor & Erector1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Fabrictor & Erector1": {
+      "main": [
+        [
+          {
+            "node": "Update a database page4",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "GC [ENR]": {
+      "main": [
+        [
+          {
+            "node": "GC [ENR]1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "GC [ENR]1": {
+      "main": [
+        [
+          {
+            "node": "Update a database page5",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If2": {
+      "main": [
+        [
+          {
+            "node": "Researcher",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "If3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If3": {
+      "main": [
+        [
+          {
+            "node": "Switch1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Switch1": {
+      "main": [
+        [
+          {
+            "node": "GC [ENR]",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Structural Engineer",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "GC",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "xPM": {
+      "main": [
+        [
+          {
+            "node": "Switch",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "If2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Sender Signature": {
+      "main": [
+        [
+          {
+            "node": "Get many database pages",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "xPM Signature": {
+      "main": [
+        [
+          {
+            "node": "Mehmet Signature",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Mehmet Signature": {
+      "main": [
+        [
+          {
+            "node": "Sender Signature",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  }
+}
